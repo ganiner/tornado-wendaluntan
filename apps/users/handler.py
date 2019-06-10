@@ -2,15 +2,55 @@
 #@Auhor : Agam
 #@Time  : 2019-06-09
 #@Email : agamgn@163.com
+import datetime
 import json
 
+import jwt
 from random import choice
 from tornado.web import RequestHandler
 
 from MxForm.handler import RedisHandler
-from apps.users.forms import SmsCodeForm, RegisterForm
+from apps.users.forms import SmsCodeForm, RegisterForm, LoginForm
 from apps.users.model import User
 from apps.utils.AsyncYunPian import AsyncYunPian
+
+
+class LoginHandler(RedisHandler):
+    async def post(self, *args, **kwargs):
+        re_data = {}
+
+        param = self.request.body.decode("utf-8")
+        param = json.loads(param)
+        form = LoginForm.from_json(param)
+
+        if form.validate():
+            mobile = form.mobile.data
+            password = form.password.data
+
+            try:
+                user = await self.application.objects.get(User, mobile=mobile)
+                if not user.password.check_password(password):
+                    self.set_status(400)
+                    re_data["non_fields"] = "用户名或密码错误"
+                else:
+                    payload = {
+                        "id":user.id,
+                        "nick_name":user.nick_name,
+                        "exp":datetime.utcnow()
+                    }
+                    token = jwt.encode(payload, self.settings["secret_key"], algorithm='HS256')
+                    re_data["id"] = user.id
+                    if user.nick_name is not None:
+                        re_data["nick_name"] = user.nick_name
+                    else:
+                        re_data["nick_name"] = user.mobile
+                    re_data["token"] = token.decode("utf8")
+
+            except User.DoesNotExist as e:
+                self.set_status(400)
+                re_data["mobile"] = "用户不存在"
+
+            self.finish(re_data)
 
 
 class RegisterHandler(RedisHandler):

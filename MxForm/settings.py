@@ -8,6 +8,7 @@ settings={
     "static_path":"",
     "static_url_prefix":"/static/",
     "template_path":"templates",
+    "secret_key":"AxfO2V3I9NetpO",
     "db":{
         "host":"127.0.0.1",
         "user":"root",

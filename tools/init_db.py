@@ -5,6 +5,7 @@
 from peewee import MySQLDatabase
 
 from MxForm.settings import database
+from apps.community.models import CommunityGroup, CommunityGroupMember
 from apps.users.model import User
 
 database = MySQLDatabase(
@@ -14,7 +15,7 @@ database = MySQLDatabase(
 def init():
     #生成表
     database.create_tables([User])
-    # database.create_tables([CommunityGroup,CommunityGroupMember])
+    database.create_tables([CommunityGroup,CommunityGroupMember])
     # database.create_tables([Post, PostComment, CommentLike])
     # database.create_tables([Question, Answer])
 
