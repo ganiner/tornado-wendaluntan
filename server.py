@@ -1,25 +1,25 @@
-# -*- coding:utf-8 -*-
-#@Auhor : Agam
-#@Time  : 2019-06-09
-#@Email : agamgn@163.com
+from tornado import web
 import tornado
 from peewee_async import Manager
-from tornado import web
 
 from MxForm.urls import urlpattern
 from MxForm.settings import settings, database
 
-if __name__ == '__main__':
-    # 集成json到wtforms
+if __name__ == "__main__":
+
+    #集成json到wtforms
     import wtforms_json
     wtforms_json.init()
 
     app = web.Application(urlpattern, debug=True, **settings)
     app.listen(8888)
 
-    object=Manager(database)
+    objects = Manager(database)
+    # No need for sync anymore!
     database.set_allow_sync(False)
-
-    app.object=object
+    app.objects = objects
 
     tornado.ioloop.IOLoop.current().start()
+
+# self.redirect方法和RedirectHandler方法区别是什么
+# self.redirect

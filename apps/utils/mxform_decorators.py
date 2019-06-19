@@ -1,11 +1,7 @@
-# -*- coding:utf-8 -*-
-#@Auhor : Agam
-#@Time  : 2019-06-10
-#@Email : agamgn@163.com
 import functools
 import jwt
 
-from apps.users.model import User
+from apps.users.models import User
 
 
 def authenticated_async(method):

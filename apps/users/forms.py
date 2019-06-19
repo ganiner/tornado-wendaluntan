@@ -1,10 +1,6 @@
-# -*- coding:utf-8 -*-
-#@Auhor : Agam
-#@Time  : 2019-06-09
-#@Email : agamgn@163.com
-from wtforms.validators import DataRequired, Regexp
 from wtforms_tornado import Form
 from wtforms import StringField
+from wtforms.validators import DataRequired, Regexp
 
 MOBILE_REGEX = "^1[358]\d{9}$|^1[48]7\d{8}$|^176\d{8}$"
 

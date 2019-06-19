@@ -1,14 +1,9 @@
-# -*- coding:utf-8 -*-
-#@Auhor : Agam
-#@Time  : 2019-06-10
-#@Email : agamgn@163.com
 from datetime import datetime
 
 from peewee import *
 
 from MxForm.models import BaseModel
-from apps.users.model import User
-
+from apps.users.models import User
 
 class CommunityGroup(BaseModel):
     creator = ForeignKeyField(User, verbose_name="创建者")
